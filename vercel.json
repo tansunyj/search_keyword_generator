@@ -1,46 +1,16 @@
 {
   "version": 2,
   "framework": "create-react-app",
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/manifest.json",
-      "dest": "/manifest.json"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
-    },
-    {
-      "src": "/api/openai",
-      "dest": "/api/openai.js",
-      "methods": ["POST", "OPTIONS"]
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/static/(.*)", "destination": "/static/$1" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/manifest.json", "destination": "/manifest.json" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/api/openai", "destination": "/api/openai.js" },
+    { "source": "/api/(.*)", "destination": "/api/$1.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
-  "env": {
-    "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions"
-  },
-  "buildCommand": "npm run build",
-  "outputDirectory": "build",
   "headers": [
     {
       "source": "/(.*)",
@@ -59,5 +29,10 @@
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions"
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "build"
 } 
