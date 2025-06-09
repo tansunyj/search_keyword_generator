@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "framework": "create-react-app",
   "routes": [
     {
       "src": "/static/(.*)",
@@ -28,5 +29,7 @@
   ],
   "env": {
     "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions"
-  }
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": "build"
 } 
