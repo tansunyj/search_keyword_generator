@@ -63,8 +63,8 @@ const Footer: React.FC = () => {
             <p className="text-gray-600">
               Have any questions or suggestions? Feel free to contact us.
             </p>
-            <a href="mailto:contact@seokeywords.com" className="text-blue-600 hover:text-blue-800 mt-2 inline-block">
-              contact@seokeywords.com
+            <a href="mailto:591124281yj@gmail.com" className="text-blue-600 hover:text-blue-800 mt-2 inline-block">
+            591124281yj@gmail.com
             </a>
           </div>
         </div>
