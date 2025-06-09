@@ -79,7 +79,7 @@ export class AIService {
       
       // 设置超时控制
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 客户端超时设置为120秒
       
       try {
         // 使用代理服务器发送请求 - 特别强调使用 same-origin 和绝对不使用 credentials
@@ -157,7 +157,7 @@ export class AIService {
         
         if (fetchError instanceof Error && fetchError.name === 'AbortError') {
           console.error('========== 请求超时 ==========');
-          console.error('请求超过130秒未完成');
+          console.error('请求超过120秒未完成');
           console.error('========== 请求超时结束 ==========');
           throw new Error('请求超时，请稍后再试');
         }
@@ -176,39 +176,64 @@ export class AIService {
   private parseKeywordResponse(content: string): KeywordResponse[] {
     try {
       console.log('开始解析关键词响应');
+      console.log('原始内容:', content);
       
-      // 首先检查是否是关键词解释器的响应（纯文本）
-      if (content && !content.includes('"keyword"') && !content.includes('"explanation"')) {
-        // 这可能是keywordExplainer的纯文本响应
+      // 尝试解析 keywordExplainer 的特殊 JSON 格式 (search_command, explanation, intent, suggestions)
+      try {
+        const jsonData = JSON.parse(content);
+        if (jsonData && typeof jsonData === 'object' && !Array.isArray(jsonData) && 
+            jsonData.search_command && jsonData.explanation && jsonData.intent && jsonData.suggestions) {
+          console.log('识别为 keywordExplainer 格式');
+          return [{
+            keyword: jsonData.search_command,
+            explanation: `${jsonData.explanation}\n\n${jsonData.intent}\n\n建议: ${jsonData.suggestions}`
+          }];
+        }
+      } catch (e) {
+        console.log('非 keywordExplainer 格式 JSON，继续其他解析方式');
+      }
+      
+      // 首先检查是否是关键词解释器的纯文本响应
+      if (content && !content.includes('"keyword"') && !content.includes('"explanation"') && 
+          !content.includes('"search_command"')) {
+        // 这可能是 keywordExplainer 的纯文本响应
         return [{
           keyword: this.keywordBeingExplained || "Search Command",
           explanation: content.trim()
         }];
       }
       
-      // 以下是处理JSON格式响应的原有逻辑
-      // 首先尝试直接解析JSON格式
+      // 以下是处理 keywordGenerator JSON 格式响应的逻辑
       try {
         // 尝试直接解析整个内容为单个对象
         let processedContent = content;
-        // 替换键名周围的单引号为双引号
-        processedContent = processedContent.replace(/'([^']+)'(\s*:)/g, '"$1"$2');
-        // 替换值周围的单引号为双引号
-        processedContent = processedContent.replace(/:\s*'([^']*)'/g, ': "$1"');
-        // 处理转义
-        processedContent = processedContent.replace(/\\'/g, "'");
         
+        // 直接解析 JSON
         try {
           const jsonData = JSON.parse(processedContent);
           // 如果是单个对象且包含keyword和explanation
           if (jsonData && typeof jsonData === 'object' && !Array.isArray(jsonData) && jsonData.keyword && jsonData.explanation) {
-            console.log('成功解析为单个JSON对象');
+            console.log('成功解析为单个JSON对象，keyword =', jsonData.keyword);
+            
+            // 修复：去除关键词中多余的反斜杠
+            if (typeof jsonData.keyword === 'string') {
+              // 修复对关键词中引号和反斜杠的处理
+              jsonData.keyword = jsonData.keyword.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+              console.log('处理后的关键词 =', jsonData.keyword);
+            }
+            
             return [jsonData]; // 返回包含单个对象的数组
           }
           
           // 如果是数组，检查第一个元素
           if (Array.isArray(jsonData) && jsonData.length > 0) {
             console.log('解析为JSON数组，取第一个元素');
+            
+            // 修复：去除关键词中多余的反斜杠
+            if (typeof jsonData[0].keyword === 'string') {
+              jsonData[0].keyword = jsonData[0].keyword.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+            }
+            
             return [jsonData[0]]; // 只取第一个元素
           }
         } catch (e) {
@@ -221,7 +246,7 @@ export class AIService {
           console.log('在内容中找到JSON对象格式字符串');
           let jsonStr = jsonMatch[0];
           
-          // 处理单引号问题
+          // 处理单引号和双引号问题
           jsonStr = jsonStr.replace(/'([^']+)'(\s*:)/g, '"$1"$2');
           jsonStr = jsonStr.replace(/:\s*'([^']*)'/g, ': "$1"');
           jsonStr = jsonStr.replace(/\\'/g, "'");
@@ -229,7 +254,14 @@ export class AIService {
           try {
             const jsonData = JSON.parse(jsonStr);
             if (jsonData && jsonData.keyword && jsonData.explanation) {
-              console.log('成功解析为单个JSON对象');
+              console.log('成功解析JSON字符串对象，keyword =', jsonData.keyword);
+              
+              // 修复：去除关键词中多余的反斜杠
+              if (typeof jsonData.keyword === 'string') {
+                jsonData.keyword = jsonData.keyword.replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+                console.log('处理后的关键词 =', jsonData.keyword);
+              }
+              
               return [jsonData]; // 返回包含单个对象的数组
             }
           } catch (innerError) {
@@ -246,9 +278,14 @@ export class AIService {
         const explanationMatch = content.match(/"explanation"\s*:\s*(['"])(.*?)\1/);
         
         if (keywordMatch && explanationMatch) {
-          console.log('从键值对中提取数据');
+          console.log('从键值对中提取数据，keyword =', keywordMatch[2]);
+          
+          // 修复：去除关键词中多余的反斜杠
+          let keyword = keywordMatch[2].replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+          console.log('处理后的关键词 =', keyword);
+          
           return [{
-            keyword: keywordMatch[2],
+            keyword: keyword,
             explanation: explanationMatch[2]
           }];
         }
@@ -268,7 +305,7 @@ export class AIService {
         // 尝试匹配"关键词：XXX"或"keyword: XXX"格式
         const keywordMatch = line.match(/^(关键词|keyword|关键字)[:：]\s*(.+)$/i);
         if (keywordMatch) {
-          keyword = keywordMatch[2].trim();
+          keyword = keywordMatch[2].trim().replace(/\\"/g, '"').replace(/\\\\/g, '\\');
           console.log('找到关键词:', keyword);
           continue;
         }
@@ -345,7 +382,7 @@ export class AIService {
       
       // 设置超时控制
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 客户端超时设置为120秒
       
       try {
         // 使用代理服务器发送请求 - 特别强调使用 same-origin 和绝对不使用 credentials
@@ -423,7 +460,7 @@ export class AIService {
         
         if (fetchError instanceof Error && fetchError.name === 'AbortError') {
           console.error('========== 请求超时 ==========');
-          console.error('请求超过130秒未完成');
+          console.error('请求超过120秒未完成');
           console.error('========== 请求超时结束 ==========');
           throw new Error('请求超时，请稍后再试');
         }

@@ -61,6 +61,8 @@ export default async function handler(req, res) {
         'User-Agent': 'Vercel Serverless Function'
       },
       body: JSON.stringify(requestBody),
+      // 设置超时时间 - AbortController
+      signal: AbortSignal.timeout(110000), // 110秒超时，略小于客户端的120秒
     };
 
     // 记录将要发送的请求（仅在开发环境中，不包含 API 密钥）
