@@ -3,10 +3,10 @@
  * 该函数用于转发前端请求到 OpenAI API，避免在前端暴露 API 密钥
  */
 
-// 获取环境变量中的 API 密钥
-const OPENAI_API_KEY = process.env.REACT_APP_AI_API_KEY;
+// 获取环境变量中的 API 密钥 - 直接使用环境变量
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.REACT_APP_AI_API_KEY;
 // OpenAI API 端点
-const OPENAI_API_URL = 'https://openkey.cloud/v1/chat/completions';
+const OPENAI_API_URL = process.env.REACT_APP_AI_API_URL || 'https://openkey.cloud/v1/chat/completions';
 
 export default async function handler(req, res) {
   // 设置CORS头，允许跨域请求
@@ -40,9 +40,14 @@ export default async function handler(req, res) {
     // 检查API密钥是否存在
     if (!OPENAI_API_KEY) {
       console.error('错误: 缺少 OPENAI_API_KEY 环境变量');
+      // 记录所有可用的环境变量名称（不记录值，仅名称）
+      const envVarNames = Object.keys(process.env).join(', ');
+      console.error('可用环境变量名称:', envVarNames);
+      
       return res.status(500).json({
         error: '服务器配置错误',
-        message: '缺少 API 密钥，请联系管理员配置环境变量'
+        message: '缺少 API 密钥，请联系管理员配置环境变量',
+        availableEnvVars: process.env.NODE_ENV === 'development' ? envVarNames : undefined
       });
     }
 
