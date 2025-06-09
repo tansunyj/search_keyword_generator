@@ -1,3 +1,6 @@
+# This is a React project, not a Python project.
+# This file is intentionally left empty to prevent Vercel from trying to install Python dependencies.
+
 # 高级SEO搜索关键词生成工具需求文档
 
 ## 项目概述
