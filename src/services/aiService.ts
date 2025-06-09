@@ -1,5 +1,5 @@
 import { getPromptConfig, getCustomPrompt } from '../config/prompts';
-import { getEnvVar } from '../config/env';
+import aiConfig from '../config/aiConfig';
 
 // AI响应类型定义
 export interface KeywordResponse {
@@ -11,17 +11,24 @@ export interface KeywordResponse {
 export class AIService {
   private apiUrl: string;
   private apiKey: string;
+  private isDevelopment: boolean;
 
   constructor() {
-    // 使用独立代理服务器URL
-    this.apiUrl = 'https://openkey.cloud/v1/chat/completions';
-    this.apiKey = getEnvVar('REACT_APP_AI_API_KEY', '');
+    this.isDevelopment = process.env.NODE_ENV === 'development';
     
-    console.log('AI Service initialized with proxy URL:', this.apiUrl);
+    // 使用代理服务器URL
+    this.apiUrl = this.isDevelopment ? 
+      aiConfig.baseConfig.proxyUrl : 
+      '/api/openai'; // Vercel Serverless Function 路径
+      
+    this.apiKey = aiConfig.baseConfig.apiKey;
+    
+    console.log('AI Service initialized');
     console.log('API Key available:', this.apiKey ? '是' : '否');
+    console.log('API Proxy URL:', this.apiUrl);
     
     // 输出一条明显的日志，确认服务已初始化
-    console.log('%c AI服务已初始化，准备发送请求到独立代理 ', 'background: #222; color: #bada55; font-size: 16px;');
+    console.log('%c AI服务已初始化，准备通过代理发送请求 ', 'background: #222; color: #bada55; font-size: 16px;');
   }
 
   // 获取适当的提示词
@@ -51,7 +58,7 @@ export class AIService {
       
       // 创建请求体 - 使用OpenAI API格式
       const requestBody = {
-        model: 'grok-3-mini-beta',
+        model: aiConfig.models.default,
         messages: [
           {
             role: 'system',
@@ -71,28 +78,20 @@ export class AIService {
       };
       
       console.log('请求体预览:', JSON.stringify(requestBody).substring(0, 200) + '...');
-      console.log('发送请求到代理:', this.apiUrl);
-      console.log('使用的API密钥前10位:', this.apiKey.substring(0, 10) + '...');
-      
-      // 发送请求
-      console.log('开始发送请求时间:', new Date().toISOString());
       
       // 设置超时控制
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒，略大于服务器端
+      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
       
       try {
-        // 使用简化的请求方式
+        // 使用代理服务器发送请求
         const response = await fetch(this.apiUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.apiKey}`
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(requestBody),
-          signal: controller.signal,
-          mode: 'cors', // 明确指定CORS模式
-          credentials: 'omit' // 不发送cookies
+          signal: controller.signal
         });
         
         // 清除超时
@@ -101,10 +100,6 @@ export class AIService {
         // 记录响应状态
         console.log('收到响应时间:', new Date().toISOString());
         console.log('API响应状态:', response.status, response.statusText);
-        console.log('响应头信息:');
-        response.headers.forEach((value, key) => {
-          console.log(`  ${key}: ${value}`);
-        });
         
         // 获取响应文本
         const responseText = await response.text();
@@ -321,7 +316,7 @@ export class AIService {
       
       // 创建请求体 - 使用OpenAI API格式
       const requestBody = {
-        model: 'grok-3-mini-beta',
+        model: aiConfig.models.default,
         messages: [
           {
             role: 'system',
@@ -338,27 +333,23 @@ export class AIService {
         ],
         temperature: 0.9,
         max_tokens: 1500,
-
       };
       
       console.log('请求体预览:', JSON.stringify(requestBody).substring(0, 200) + '...');
-      console.log('发送请求到代理:', this.apiUrl);
       console.log('开始发送请求时间:', new Date().toISOString());
       
       // 设置超时控制
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒，略大于服务器端
+      const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
       
       try {
-        // 使用Authorization头而不是URL查询参数
+        // 使用代理服务器发送请求
         const response = await fetch(this.apiUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.apiKey}`
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(requestBody),
-          // 设置信号用于超时控制
           signal: controller.signal
         });
         
@@ -368,10 +359,6 @@ export class AIService {
         // 记录响应状态
         console.log('收到响应时间:', new Date().toISOString());
         console.log('API响应状态:', response.status, response.statusText);
-        console.log('响应头信息:');
-        response.headers.forEach((value, key) => {
-          console.log(`  ${key}: ${value}`);
-        });
         
         // 获取响应文本
         const responseText = await response.text();
