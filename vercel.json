@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ],
+  "env": {
+    "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions"
+  },
+  "buildCommand": "npm run build"
+} 
