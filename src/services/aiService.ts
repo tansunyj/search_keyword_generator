@@ -16,9 +16,10 @@ export class AIService {
   constructor() {
     this.isDevelopment = process.env.NODE_ENV === 'development';
     
-    // 使用代理服务器URL
+    // 始终使用 Vercel Serverless Function 作为代理
+    // 开发环境使用本地代理，生产环境使用 Vercel 代理
     this.apiUrl = this.isDevelopment ? 
-      aiConfig.baseConfig.proxyUrl : 
+      '/api/openai' : // 本地开发时也使用相对路径
       '/api/openai'; // Vercel Serverless Function 路径
       
     this.apiKey = aiConfig.baseConfig.apiKey;
@@ -28,7 +29,7 @@ export class AIService {
     console.log('API Proxy URL:', this.apiUrl);
     
     // 输出一条明显的日志，确认服务已初始化
-    console.log('%c AI服务已初始化，准备通过代理发送请求 ', 'background: #222; color: #bada55; font-size: 16px;');
+    console.log('%c AI服务已初始化，始终通过代理发送请求 ', 'background: #222; color: #bada55; font-size: 16px;');
   }
 
   // 获取适当的提示词
@@ -91,7 +92,11 @@ export class AIService {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(requestBody),
-          signal: controller.signal
+          signal: controller.signal,
+          // 设置请求模式为 same-origin 确保不会直接请求外部 API
+          mode: 'same-origin',
+          // 不添加缓存，每次都是新请求
+          cache: 'no-store'
         });
         
         // 清除超时
@@ -350,7 +355,11 @@ export class AIService {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(requestBody),
-          signal: controller.signal
+          signal: controller.signal,
+          // 设置请求模式为 same-origin 确保不会直接请求外部 API
+          mode: 'same-origin',
+          // 不添加缓存，每次都是新请求
+          cache: 'no-store'
         });
         
         // 清除超时
