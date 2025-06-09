@@ -23,6 +23,11 @@
       "dest": "/sitemap.xml"
     },
     {
+      "src": "/api/openai",
+      "dest": "/api/openai.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/$1.js"
     },
@@ -32,9 +37,27 @@
     }
   ],
   "env": {
-    "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions",
-    "REACT_APP_AI_API_KEY": "@ai_api_key"
+    "REACT_APP_AI_API_URL": "https://openkey.cloud/v1/chat/completions"
   },
   "buildCommand": "npm run build",
-  "outputDirectory": "build"
+  "outputDirectory": "build",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { 
+          "key": "Content-Security-Policy", 
+          "value": "connect-src 'self' https://*.vercel.app; default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; block-all-mixed-content" 
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
 } 

@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     // 检查API密钥是否存在
     if (!OPENAI_API_KEY) {
-      console.error('错误: 缺少 OPENAI_API_KEY 环境变量');
+      console.error('错误: 缺少 API 密钥');
       // 记录所有可用的环境变量名称（不记录值，仅名称）
       const envVarNames = Object.keys(process.env).join(', ');
       console.error('可用环境变量名称:', envVarNames);
@@ -56,14 +56,29 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // 确保 Bearer 和 token 之间有空格
         'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'User-Agent': 'Vercel Serverless Function'
       },
       body: JSON.stringify(requestBody),
     };
 
+    // 记录将要发送的请求（仅在开发环境中，不包含 API 密钥）
+    if (process.env.NODE_ENV === 'development') {
+      const redactedOptions = {
+        ...fetchOptions,
+        headers: {
+          ...fetchOptions.headers,
+          'Authorization': 'Bearer [REDACTED]'
+        }
+      };
+      console.log('发送请求到:', OPENAI_API_URL);
+      console.log('请求选项:', JSON.stringify(redactedOptions, null, 2));
+    } else {
+      console.log(`正在发送请求到 ${OPENAI_API_URL}`);
+    }
+
     // 发送请求到 OpenAI API
-    console.log(`正在发送请求到 ${OPENAI_API_URL}`);
     const response = await fetch(OPENAI_API_URL, fetchOptions);
     
     // 获取响应数据

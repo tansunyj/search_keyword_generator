@@ -5,7 +5,8 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://*.vercel.app; default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <!-- 严格的 CSP 策略，完全阻止对外部 API 的访问 -->
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://*.vercel.app; default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; block-all-mixed-content">
     <meta
       name="description"
       content="Web site created using create-react-app"

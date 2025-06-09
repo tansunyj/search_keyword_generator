@@ -16,17 +16,14 @@ export class AIService {
   constructor() {
     this.isDevelopment = process.env.NODE_ENV === 'development';
     
-    // 始终使用 Vercel Serverless Function 作为代理
-    // 开发环境使用本地代理，生产环境使用 Vercel 代理
-    this.apiUrl = this.isDevelopment ? 
-      '/api/openai' : // 本地开发时也使用相对路径
-      '/api/openai'; // Vercel Serverless Function 路径
+    // 强制使用相对路径，确保通过 Vercel Serverless Function 代理
+    this.apiUrl = '/api/openai';
       
-    this.apiKey = aiConfig.baseConfig.apiKey;
+    // API 密钥在客户端实际上不会使用，因为会通过代理请求
+    this.apiKey = '';
     
     console.log('AI Service initialized');
-    console.log('API Key available:', this.apiKey ? '是' : '否');
-    console.log('API Proxy URL:', this.apiUrl);
+    console.log('Using proxy URL:', this.apiUrl);
     
     // 输出一条明显的日志，确认服务已初始化
     console.log('%c AI服务已初始化，始终通过代理发送请求 ', 'background: #222; color: #bada55; font-size: 16px;');
@@ -85,18 +82,21 @@ export class AIService {
       const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
       
       try {
-        // 使用代理服务器发送请求
+        // 使用代理服务器发送请求 - 特别强调使用 same-origin 和绝对不使用 credentials
         const response = await fetch(this.apiUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            // 不包含任何授权头，让服务器端处理
           },
           body: JSON.stringify(requestBody),
           signal: controller.signal,
           // 设置请求模式为 same-origin 确保不会直接请求外部 API
           mode: 'same-origin',
           // 不添加缓存，每次都是新请求
-          cache: 'no-store'
+          cache: 'no-store',
+          // 不发送 cookies
+          credentials: 'omit'
         });
         
         // 清除超时
@@ -348,18 +348,21 @@ export class AIService {
       const timeoutId = setTimeout(() => controller.abort(), 130000); // 客户端超时设置为130秒
       
       try {
-        // 使用代理服务器发送请求
+        // 使用代理服务器发送请求 - 特别强调使用 same-origin 和绝对不使用 credentials
         const response = await fetch(this.apiUrl, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            // 不包含任何授权头，让服务器端处理
           },
           body: JSON.stringify(requestBody),
           signal: controller.signal,
           // 设置请求模式为 same-origin 确保不会直接请求外部 API
           mode: 'same-origin',
           // 不添加缓存，每次都是新请求
-          cache: 'no-store'
+          cache: 'no-store',
+          // 不发送 cookies
+          credentials: 'omit'
         });
         
         // 清除超时
