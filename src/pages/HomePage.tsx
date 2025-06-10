@@ -3,8 +3,35 @@ import SEOHead from '../components/layout/SEOHead';
 import { aiService, KeywordResponse } from '../services/aiService';
 import KeywordsList from '../components/KeywordsList';
 
-// 删除旧的模拟函数，我们现在使用真实的API调用
-// const generateKeywords = async (query: string): Promise<Array<{ keyword: string, explanation: string }>> => { ... };
+// 工具函数：提取关键词和解释
+const extractKeywordAndExplanation = (text: string): KeywordResponse => {
+  try {
+    // 找到keyword的位置
+    const keywordStart = text.indexOf('"keyword":') + 10; // +10 跳过 '"keyword": "'
+    const keywordEnd = text.indexOf('", "explanation"');
+    let keyword = text.substring(keywordStart, keywordEnd);
+    
+    // 找到explanation的位置
+    const explanationStart = text.indexOf('"explanation":') + 14; // +14 跳过 '"explanation": "'
+    const explanationEnd = text.lastIndexOf('"}');
+    let explanation = text.substring(explanationStart, explanationEnd);
+    
+    // 清理多余的转义字符和引号
+    keyword = keyword.replace(/\\"/g, '"').replace(/^"|"$/g, '');
+    explanation = explanation.replace(/\\"/g, '"').replace(/^"|"$/g, '');
+    
+    return {
+      keyword,
+      explanation
+    };
+  } catch (err) {
+    console.error('Error extracting keyword and explanation:', err);
+    return {
+      keyword: '',
+      explanation: 'Failed to parse response'
+    };
+  }
+};
 
 const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,17 +78,30 @@ const HomePage: React.FC = () => {
     }
     
     try {
-      // Clear previous results when starting generation
       setKeywords([]);
       setHasResults(false);
       setIsLoading(true);
       setError(null);
       
-      const results = await aiService.generateKeywords(searchQuery);
+      const result = await aiService.generateKeywords(searchQuery);
       
-      if (results && results.length > 0) {
-        setKeywords(results);
-        setHasResults(true);
+      if (result) {
+        // 检查result是否为字符串
+        if (typeof result === 'string') {
+          const parsedResult = extractKeywordAndExplanation(result);
+          if (parsedResult.keyword) {
+            setKeywords([parsedResult]);
+            setHasResults(true);
+          } else {
+            setError('Could not extract keywords from response');
+          }
+        } else if (Array.isArray(result)) {
+          // 如果result是数组，直接使用
+          setKeywords(result);
+          setHasResults(true);
+        } else {
+          setError('Invalid response format from server');
+        }
       } else {
         setError('Could not generate keywords, please try a different search intent');
       }
@@ -256,4 +296,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;
