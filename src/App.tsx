@@ -6,6 +6,7 @@ import './App.css';
 // 导入布局组件
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import GoogleAnalytics from './components/GoogleAnalytics';
 
 // 导入页面组件
 import HomePage from './pages/HomePage';
@@ -18,6 +19,7 @@ const App: React.FC = () => {
     <HelmetProvider>
       <Router>
         <div className="App flex flex-col min-h-screen">
+          <GoogleAnalytics />
           <Header />
           <main className="flex-grow">
             <Routes>
