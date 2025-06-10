@@ -37,7 +37,7 @@
   "outputDirectory": "build",
   "functions": {
     "api/openai.js": {
-      "maxDuration": 120
+      "maxDuration": 60
     }
   }
 } 
