@@ -114,21 +114,21 @@ const ExplainPage: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="搜索命令解析工具 | 理解filetype、site、intext高级搜索语法"
-        description="解析Google高级搜索命令，包括filetype:pdf、site:edu、intitle、intext等，帮助您理解搜索语法和搜索意图，提高搜索效率。"
-        keywords="filetype:pdf,filetype:mp3,filetype:mp4,site:edu,site:gov,intitle:search,intext:keywords,allintext,allintitle,inurl,搜索命令解析,高级搜索技巧,Google搜索语法"
+        title="Search Engine Optimization Analysis Tool | SEO Keyword Analysis"
+        description="Analyze search engine optimization (SEO) concepts and techniques, including keyword strategies and long-tail keyword examples to help you understand and implement effective SEO strategies."
+        keywords="explain search engine optimization,what are long tail keywords examples,generating search terms,search engine optimization,SEO keywords,long tail keywords,search command analysis"
         canonicalUrl="https://seokeywords.com/explain"
       />
       <div className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8 tracking-tight">
-              Advanced SEO Keyword Explanation
+              Search Engine Optimization and Keyword Analysis
             </h1>
             
             <div className="flex justify-center">
               <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-5xl md:max-w-full mx-auto leading-relaxed">
-                Paste your advanced SEO keywords, and we'll provide professional explanations and analysis.
+                Enter keywords or SEO terms to get professional search engine optimization analysis and long-tail keyword examples to help optimize your website content.
               </p>
             </div>
           </div>
@@ -145,7 +145,7 @@ const ExplainPage: React.FC = () => {
                     ref={textareaRef}
                     value={keywordsInput}
                     onChange={handleInputChange}
-                    placeholder="Paste your keywords here..."
+                    placeholder="Enter SEO keywords or terms, such as: search engine optimization, long tail keyword examples, keyword generation strategies, etc..."
                     className="w-full px-6 py-4 text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none shadow-sm"
                     rows={4}
                     aria-label="Keyword input"
@@ -301,6 +301,49 @@ const ExplainPage: React.FC = () => {
               Our keyword explanation tool uses advanced semantic analysis technology to help you deeply understand the search intent behind each keyword.
             </p>
           </div>
+
+            {/* 添加SEO教育内容 */}
+            {!isLoading && (
+              <section className="py-16 px-4 bg-white">
+                <div className="container mx-auto max-w-4xl text-left">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-3 text-center">
+                        Generating Effective Search Terms
+                      </h2>
+                      <p className="text-gray-600 mb-4 leading-relaxed text-left">
+                        Effective generation of search terms is the foundation of any successful SEO strategy. By understanding user search intent and keyword research, you can discover more valuable traffic opportunities.
+                      </p>
+                      <p className="text-gray-600 mb-4 leading-relaxed text-left">
+                        Steps for generating search terms include:
+                      </p>
+                      <ul className="list-disc pl-5 text-gray-600 space-y-3 text-left">
+                        <li className="leading-relaxed">Identify core topics and keywords</li>
+                        <li className="leading-relaxed">Expand to related terms and synonyms</li>
+                        <li className="leading-relaxed">Research user search intent</li>
+                        <li className="leading-relaxed">Analyze competitor keyword strategies</li>
+                        <li className="leading-relaxed">Use professional tools to expand your keyword library</li>
+                      </ul>
+                    </div>
+                    <div className="bg-gradient-to-br from-white to-blue-50 p-6 rounded-xl shadow-sm border border-blue-100">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b border-blue-100 pb-3 text-center">
+                        Long-Tail Keyword Examples
+                      </h2>
+                      <p className="text-gray-600 mb-4 leading-relaxed text-left">
+                        Long-tail keywords are multi-word combinations that precisely match user search intent. Here are examples from different industries:
+                      </p>
+                      <ul className="list-disc pl-5 text-gray-600 space-y-3 text-left">
+                        <li className="leading-relaxed"><strong>E-commerce</strong>: Men's anti-slip running shoes price-performance ranking</li>
+                        <li className="leading-relaxed"><strong>Education</strong>: How to improve English speaking skills in 3 months for beginners</li>
+                        <li className="leading-relaxed"><strong>Tech Products</strong>: Best lightweight business laptops with long battery life 2023</li>
+                        <li className="leading-relaxed"><strong>Health & Fitness</strong>: Sustainable weight loss methods for women over 30</li>
+                        <li className="leading-relaxed"><strong>Travel</strong>: Best 7-day 6-night Bali self-guided tour itinerary</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
         </div>
       </div>
     </>

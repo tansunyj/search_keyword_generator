@@ -139,9 +139,9 @@ const HomePage: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="高级搜索关键词生成器 | 搜索命令优化工具"
-        description="使用AI技术生成高效搜索关键词，支持filetype、site、intext、intitle等高级搜索命令，帮助您精确查找PDF、文档、图片和视频等各类资源。"
-        keywords="filetype:pdf,site:edu,intitle:search,intext:keywords,filetype:mp4,filetype:mp3,allintext,allintitle,inurl,高级搜索,搜索命令,搜索技巧,Google搜索,搜索优化"
+        title="Advanced SEO Keywords Generator | SEO Keywords Generator Tool"
+        description="Generate effective search keywords and long-tail keywords using AI technology, supporting both English and Chinese search command optimization to improve SEO results."
+        keywords="seo keywords generator,关键词生成器,keywords seo generator,generating search terms,what are long tail keywords examples,explain search engine optimization,SEO optimization,long tail keywords,search commands"
         canonicalUrl="https://seokeywords.com"
       />
       <div className="min-h-screen bg-gray-50">
@@ -150,11 +150,11 @@ const HomePage: React.FC = () => {
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-8 tracking-tight">
-                AI Smart Search Keywords Generator
+                SEO Keywords Generator Tool
               </h1>
               <div className="flex justify-center">
                 <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-5xl md:max-w-full mx-auto leading-relaxed">
-                  Enter your search intent to get precise advanced search keywords with detailed explanations, helping you accurately express your search needs.
+                  Enter your search intent to get precise SEO keywords and long-tail keywords that help improve your website ranking and search traffic. Supports both English and Chinese search commands.
                 </p>
               </div>
             </div>
@@ -171,7 +171,7 @@ const HomePage: React.FC = () => {
                       ref={textareaRef}
                       value={searchQuery}
                       onChange={handleInputChange}
-                      placeholder="Enter your search intent or keyword topic (e.g., digital marketing, website design, content creation, etc.)..."
+                      placeholder="Enter your search intent or topic (e.g., SEO optimization, keyword generator, long tail keywords, search engine optimization, etc.)..."
                       className="w-full px-6 py-4 text-lg rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none shadow-sm"
                       rows={4}
                       aria-label="Search intent"
@@ -254,37 +254,43 @@ const HomePage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div className="bg-gradient-to-br from-white to-gray-50 p-6 rounded-xl shadow-sm border border-gray-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b border-gray-100 pb-3 text-center">
-                  What are Advanced SEO Keywords?
+                  What is Search Engine Optimization (SEO)?
                 </h2>
                 <p className="text-gray-600 mb-4 leading-relaxed text-left">
-                Advanced SEO keywords are phrases that precisely express user search intent, helping users find the information they need more accurately. These keywords include not only basic search terms but also context and semantics of the user's actual search intent.
+                  Search Engine Optimization (SEO) is a series of strategies and techniques to improve the visibility of your website in organic search results. Effective SEO not only improves your website's ranking but also increases traffic quality, ultimately leading to more conversions.
                 </p>
                 <p className="text-gray-600 mb-4 leading-relaxed text-left">
-                  Compared to ordinary keywords, advanced SEO keywords typically have the following characteristics:
+                  SEO optimization includes the following aspects:
                 </p>
                 <ul className="list-disc pl-5 text-gray-600 space-y-3 text-left">
-                  <li className="leading-relaxed">More precisely match user intent</li>
-                  <li className="leading-relaxed">Include more specific search need descriptions</li>
-                  <li className="leading-relaxed">Better structure, clearer expression</li>
-                  <li className="leading-relaxed">Include long-tail keywords, covering more search scenarios</li>
+                  <li className="leading-relaxed">Technical optimization - Ensure that search engines can crawl and index your website</li>
+                  <li className="leading-relaxed">Content optimization - Create high-quality content that matches user search intent</li>
+                  <li className="leading-relaxed">Keyword research - Find valuable short-tail and long-tail keywords</li>
+                  <li className="leading-relaxed">Page optimization - Use appropriate title tags, meta descriptions, and internal links</li>
                 </ul>
               </div>
               <div className="bg-gradient-to-br from-white to-blue-50 p-6 rounded-xl shadow-sm border border-blue-100">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b border-blue-100 pb-3 text-center">
-                  How to Use This Tool?
+                  What are Long-Tail Keywords?
                 </h2>
+                <p className="text-gray-600 mb-4 leading-relaxed text-left">
+                  Long-tail keywords are longer, more specific search phrases, usually containing 3-5 or more words. Their search volume is usually lower, but their conversion rate tends to be higher because they can more accurately match users' search intent.
+                </p>
+                <p className="text-gray-600 mb-4 leading-relaxed text-left">
+                  The advantages of long-tail keywords include:
+                </p>
                 <ol className="list-decimal pl-5 text-gray-600 space-y-4 text-left">
                   <li className="leading-relaxed">
-                    <strong className="text-gray-900">Enter Search Intent</strong>
-                    <p>Enter the topic or keyword you want to optimize in the search box.</p>
+                    <strong className="text-gray-900">Lower competition</strong>
+                    <p>Compared to popular short words, long-tail keywords have lower competition, making it easier to rank.</p>
                   </li>
                   <li className="leading-relaxed">
-                    <strong className="text-gray-900">Generate Keywords</strong>
-                    <p>Click the "Generate Keywords" button, and the system will analyze your input and generate an optimized list of SEO keywords.</p>
+                    <strong className="text-gray-900">Higher conversion rate</strong>
+                    <p>Long-tail keywords often indicate that users are approaching a purchase decision, resulting in a higher conversion rate.</p>
                   </li>
                   <li className="leading-relaxed">
-                    <strong className="text-gray-900">View and Use Results</strong>
-                    <p>Browse the generated keywords and their explanations, click the search icon to directly search these keywords in Google or Bing.</p>
+                    <strong className="text-gray-900">More precise traffic</strong>
+                    <p>Long-tail keywords can attract more precise visitors, improving overall website conversion rate.</p>
                   </li>
                 </ol>
               </div>

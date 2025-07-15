@@ -63,9 +63,22 @@ const Footer: React.FC = () => {
             <p className="text-gray-600">
               Have any questions or suggestions? Feel free to contact us.
             </p>
-            <a href="mailto:591124281yj@gmail.com" className="text-blue-600 hover:text-blue-800 mt-2 inline-block">
-            591124281yj@gmail.com
-            </a>
+            <div className="flex space-x-4 mt-4">
+              {/* Email icon */}
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=591124281yj@gmail.com&su=Inquiry from SEO Keywords Generator" className="text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" title="Email us">
+                <span className="sr-only">Email</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </a>
+              {/* Telegram icon */}
+              <a href="https://t.me/yangjerry666" className="text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" title="Contact us on Telegram">
+                <span className="sr-only">Telegram</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18.717-.484 3.055-.681 4.559l-.57 3.968c-.05.34-.183.425-.335.425-.152 0-.334-.078-.519-.224l-2.818-2.088-1.359 1.308c-.151.146-.278.267-.456.267-.117 0-.231-.062-.284-.344l-.638-2.113-2.753-.853c-.292-.09-.292-.292.061-.436l10.674-4.129c.151-.056.334-.017.38.146z"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
