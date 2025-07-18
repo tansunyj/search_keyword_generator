@@ -72,7 +72,6 @@ const PromptSettingsPage: React.FC = () => {
       <SEOHead 
         title="提示词设置 | 自定义搜索命令生成规则" 
         description="自定义AI提示词设置，优化filetype、site、intext等高级搜索命令的生成和解析，提高搜索关键词的精确度和实用性。" 
-        keywords="filetype:pdf,site:edu,intitle,intext,搜索命令生成,AI提示词,搜索优化,高级搜索技巧,Google搜索语法"
         canonicalUrl="https://seokeywords.com/settings"
       />
       <div className="container mx-auto px-4 max-w-4xl">

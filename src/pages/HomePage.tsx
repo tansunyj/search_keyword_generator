@@ -139,9 +139,8 @@ const HomePage: React.FC = () => {
   return (
     <>
       <SEOHead
-        title="Advanced SEO Keywords Generator | SEO Keywords Generator Tool"
+        title="Advanced Google Search Keywords | Generator & Explainer"
         description="Generate effective search keywords and long-tail keywords using AI technology, supporting both English and Chinese search command optimization to improve SEO results."
-        keywords="seo keywords generator,关键词生成器,keywords seo generator,generating search terms,what are long tail keywords examples,explain search engine optimization,SEO optimization,long tail keywords,search commands"
         canonicalUrl="https://seokeywords.com"
       />
       <div className="min-h-screen bg-gray-50">

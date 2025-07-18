@@ -7,7 +7,6 @@ const AboutPage: React.FC = () => {
       <SEOHead 
         title="关于我们 | 高级搜索关键词生成与解析工具" 
         description="了解我们的AI驱动搜索工具如何帮助您掌握filetype:pdf、site:edu等高级搜索命令，提高信息检索效率，精确找到所需文档、视频和学术资源。" 
-        keywords="filetype:pdf,filetype:mp3,filetype:mp4,site:edu,site:gov,intitle,intext,allintitle,allintext,inurl,高级搜索工具,搜索命令生成器,Google搜索优化"
         canonicalUrl="https://seokeywords.com/about"
       />
       <div className="container mx-auto px-4 max-w-4xl">

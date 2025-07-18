@@ -116,7 +116,6 @@ const ExplainPage: React.FC = () => {
       <SEOHead
         title="Search Engine Optimization Analysis Tool | SEO Keyword Analysis"
         description="Analyze search engine optimization (SEO) concepts and techniques, including keyword strategies and long-tail keyword examples to help you understand and implement effective SEO strategies."
-        keywords="explain search engine optimization,what are long tail keywords examples,generating search terms,search engine optimization,SEO keywords,long tail keywords,search command analysis"
         canonicalUrl="https://seokeywords.com/explain"
       />
       <div className="min-h-screen bg-gray-50 py-12">

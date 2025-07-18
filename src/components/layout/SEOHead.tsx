@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async';
 interface SEOHeadProps {
   title: string;
   description: string;
-  keywords: string;
   canonicalUrl?: string;
   ogImage?: string;
   ogType?: 'website' | 'article';
@@ -13,19 +12,17 @@ interface SEOHeadProps {
 const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
-  keywords,
   canonicalUrl,
   ogImage,
   ogType = 'website',
 }) => {
-  const siteTitle = 'SEO Keywords Generator';
-  const fullTitle = `${title} | ${siteTitle}`;
+
+  const fullTitle = `${title}`;
   
   return (
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
       
       {/* Canonical link */}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -34,6 +31,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
+      <meta property="og:image" content='' />
+      
       {ogImage && <meta property="og:image" content={ogImage} />}
       {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
       
@@ -41,6 +40,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
+      <meta name="twitter:site" content="@yangjerry2025" />
+      <meta name="twitter:image" content="https://www.searchkeywordsgenerator.com/twwiter.svg" />
       {ogImage && <meta name="twitter:image" content={ogImage} />}
     </Helmet>
   );

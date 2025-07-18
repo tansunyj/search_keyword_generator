@@ -376,7 +376,6 @@ const ExamplesPage: React.FC = () => {
       <SEOHead 
         title="高级搜索命令示例 | filetype、site、intext搜索技巧" 
         description="查看丰富的Google高级搜索命令示例，包括filetype:pdf查找文档、site:edu限定教育网站、intitle精确标题搜索等，提升您的信息检索能力。" 
-        keywords="filetype:pdf intitle:the secret,filetype:pdf three-body problem,filetype:mp4,filetype:mp3,site:edu,site:gov,intext:search,allintitle,allintext,inurl:admin,高级搜索示例,Google搜索技巧"
         canonicalUrl="https://seokeywords.com/examples"
       />
       <div className="container mx-auto px-4 max-w-5xl">
